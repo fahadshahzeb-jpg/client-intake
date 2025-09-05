@@ -1,182 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Declaration Form</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .form-section { margin-bottom: 20px; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    canvas { border: 2px solid #333; cursor: crosshair; margin-top: 10px; }
-    button { margin-top: 10px; padding: 8px 16px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Declaration Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-section { margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        canvas { border: 2px solid #333; cursor: crosshair; margin-top: 10px; }
+        button { margin-top: 10px; padding: 8px 16px; }
+    </style>
 </head>
 <body>
 
-  <h2>Client Declaration Form</h2>
+    <h2>Client Declaration Form</h2>
 
-  <!-- Basic Info -->
-  <div class="form-section">
-    <label>1. Customer Name:</label>
-    <input type="text" id="customerName" required>
+    <form id="clientForm" action="https://script.google.com/a/macros/urbancompany.com/s/AKfycbzsPS5F_WLtqg9NVjP3bMtL5n1qbAjayZlVvB7E6Qbk-vHSiJ4gA1zP_mX4uaoMRKFk/exec" method="post" onsubmit="captureCanvasData();">
 
-    <label>2. Customer Number:</label>
-    <input type="text" id="customerNumber" required>
+        <div class="form-section">
+            <label>1. Customer Name:</label>
+            <input type="text" id="customerName" name="customerName" required>
 
-    <label>3. Therapist Name:</label>
-    <input type="text" id="therapistName" required>
+            <label>2. Customer Number:</label>
+            <input type="text" id="customerNumber" name="customerNumber" required>
 
-    <label>4. Therapist Number:</label>
-    <input type="text" id="therapistNumber" required>
+            <label>3. Therapist Name:</label>
+            <input type="text" id="therapistName" name="therapistName" required>
 
-    <label>5. Date:</label>
-    <input type="date" id="date" required>
-  </div>
+            <label>4. Therapist Number:</label>
+            <input type="text" id="therapistNumber" name="therapistNumber" required>
 
-  <!-- Questions -->
-  <div class="form-section">
-    <label>6. Have you received massage therapy or bodywork before?</label>
-    <input type="radio" name="massageBefore" value="Yes"> Yes
-    <input type="radio" name="massageBefore" value="No"> No
+            <label>5. Date:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
 
-    <label>7. Have you ever experienced allergic reaction or irritation from any type of oil or skin product?</label>
-    <input type="radio" name="allergy" value="Yes"> Yes
-    <input type="radio" name="allergy" value="No"> No
-    <br>If yes, please specify: <input type="text" id="allergyDetails">
+        <div class="form-section">
+            <label>6. Have you received massage therapy or bodywork before?</label>
+            <input type="radio" name="massageBefore" value="Yes"> Yes
+            <input type="radio" name="massageBefore" value="No"> No
 
-    <label>8. Are you currently pregnant?</label>
-    <input type="radio" name="pregnant" value="Yes"> Yes
-    <input type="radio" name="pregnant" value="No"> No
+            <label>7. Have you ever experienced allergic reaction or irritation from any type of oil or skin product?</label>
+            <input type="radio" name="allergy" value="Yes"> Yes
+            <input type="radio" name="allergy" value="No"> No
+            <br>If yes, please specify: <input type="text" id="allergyDetails" name="allergyDetails">
 
-    <label>9. Are you currently postpartum?</label>
-    <input type="radio" name="postpartum" value="Yes"> Yes
-    <input type="radio" name="postpartum" value="No"> No
-    <br>If yes, please specify: <input type="text" id="postpartumDetails">
+            <label>8. Are you currently pregnant?</label>
+            <input type="radio" name="pregnant" value="Yes"> Yes
+            <input type="radio" name="pregnant" value="No"> No
 
-    <label>10. Are you currently menstruating?</label>
-    <input type="radio" name="menstruating" value="Yes"> Yes
-    <input type="radio" name="menstruating" value="No"> No
+            <label>9. Are you currently postpartum?</label>
+            <input type="radio" name="postpartum" value="Yes"> Yes
+            <input type="radio" name="postpartum" value="No"> No
+            <br>If yes, please specify: <input type="text" id="postpartumDetails" name="postpartumDetails">
 
-    <label>11. Any high risk factors?</label>
-    <input type="radio" name="risk" value="Yes"> Yes
-    <input type="radio" name="risk" value="No"> No
-    <br>If yes, please specify: <input type="text" id="riskDetails">
-  </div>
+            <label>10. Are you currently menstruating?</label>
+            <input type="radio" name="menstruating" value="Yes"> Yes
+            <input type="radio" name="menstruating" value="No"> No
 
-  <!-- Body Diagram -->
-  <div class="form-section">
-    <label>12. Please circle areas where you would like to focus:</label>
-    <canvas id="bodyCanvas" width="400" height="600"></canvas><br>
-    <button type="button" onclick="clearCanvas('bodyCanvas', bodyCtx, bodyImage)">Clear Drawing</button>
-  </div>
+            <label>11. Any high risk factors?</label>
+            <input type="radio" name="risk" value="Yes"> Yes
+            <input type="radio" name="risk" value="No"> No
+            <br>If yes, please specify: <input type="text" id="riskDetails" name="riskDetails">
+        </div>
 
-  <!-- Areas of discomfort -->
-  <div class="form-section">
-    <label>13. Are there any areas of discomfort?</label>
-    <input type="radio" name="discomfort" value="Yes"> Yes
-    <input type="radio" name="discomfort" value="No"> No
-    <br>If yes, please specify: <textarea id="discomfortDetails" rows="3" cols="40"></textarea>
-  </div>
+        <div class="form-section">
+            <label>12. Please circle areas where you would like to focus:</label>
+            <canvas id="bodyCanvas" width="400" height="600"></canvas><br>
+            <button type="button" onclick="clearCanvas('bodyCanvas', bodyCtx, bodyImage)">Clear Drawing</button>
+        </div>
 
-  <!-- Pressure -->
-  <div class="form-section">
-    <label>14. What type of pressure do you prefer?</label>
-    <select id="pressure">
-      <option value="Light">Light</option>
-      <option value="Medium">Medium</option>
-      <option value="Deep">Deep</option>
-    </select>
-  </div>
+        <div class="form-section">
+            <label>13. Are there any areas of discomfort?</label>
+            <input type="radio" name="discomfort" value="Yes"> Yes
+            <input type="radio" name="discomfort" value="No"> No
+            <br>If yes, please specify: <textarea id="discomfortDetails" name="discomfortDetails" rows="3" cols="40"></textarea>
+        </div>
 
-  <!-- Declaration -->
-  <div class="form-section">
-    <p><b>Declaration:</b><br>
-      I declare that I have read this consultation form thoroughly and I understand every question asked.  
-      I believe I have no medical condition that may affect the treatment.  
-      All of the given answers are correct and true to the best of my knowledge.
-    </p>
-  </div>
+        <div class="form-section">
+            <label>14. What type of pressure do you prefer?</label>
+            <select id="pressure" name="pressure">
+                <option value="Light">Light</option>
+                <option value="Medium">Medium</option>
+                <option value="Deep">Deep</option>
+            </select>
+        </div>
 
-  <!-- Signatures -->
-  <div class="form-section">
-    <label>Customer Signature:</label>
-    <canvas id="customerSign" width="400" height="150"></canvas><br>
-    <button type="button" onclick="clearCanvas('customerSign', custCtx)">Clear Signature</button>
+        <div class="form-section">
+            <p><b>Declaration:</b><br>
+                I declare that I have read this consultation form thoroughly and I understand every question asked.  
+                I believe I have no medical condition that may affect the treatment.  
+                All of the given answers are correct and true to the best of my knowledge.
+            </p>
+        </div>
 
-    <label>Therapist Signature:</label>
-    <canvas id="therapistSign" width="400" height="150"></canvas><br>
-    <button type="button" onclick="clearCanvas('therapistSign', therCtx)">Clear Signature</button>
-  </div>
+        <div class="form-section">
+            <label>Customer Signature:</label>
+            <canvas id="customerSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('customerSign', custCtx)">Clear Signature</button>
 
-  <!-- Submit -->
-  <button onclick="submitForm()">Submit Form</button>
+            <label>Therapist Signature:</label>
+            <canvas id="therapistSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('therapistSign', therCtx)">Clear Signature</button>
+        </div>
 
-  <script>
-    // Body Diagram Canvas
-    const bodyCanvas = document.getElementById("bodyCanvas");
-    const bodyCtx = bodyCanvas.getContext("2d");
-    const bodyImage = new Image();
-    bodyImage.src = "body-diagram.png"; // Replace with your diagram
-    bodyImage.onload = () => bodyCtx.drawImage(bodyImage, 0, 0, bodyCanvas.width, bodyCanvas.height);
+        <input type="hidden" name="bodyDrawing" id="bodyDrawing">
+        <input type="hidden" name="customerSignature" id="customerSignature">
+        <input type="hidden" name="therapistSignature" id="therapistSignature">
 
-    setupDrawing(bodyCanvas, bodyCtx);
+        <button type="submit">Submit Form</button>
 
-    // Signature Canvases
-    const custCanvas = document.getElementById("customerSign");
-    const custCtx = custCanvas.getContext("2d");
-    setupDrawing(custCanvas, custCtx);
+    </form>
 
-    const therCanvas = document.getElementById("therapistSign");
-    const therCtx = therCanvas.getContext("2d");
-    setupDrawing(therCanvas, therCtx);
+    <script>
+        // Body Diagram Canvas
+        const bodyCanvas = document.getElementById("bodyCanvas");
+        const bodyCtx = bodyCanvas.getContext("2d");
+        const bodyImage = new Image();
+        bodyImage.src = "body-diagram.png";
+        bodyImage.onload = () => bodyCtx.drawImage(bodyImage, 0, 0, bodyCanvas.width, bodyCanvas.height);
+        setupDrawing(bodyCanvas, bodyCtx);
 
-    // Drawing function
-    function setupDrawing(canvas, ctx) {
-      let drawing = false;
-      canvas.addEventListener("mousedown", () => { drawing = true; ctx.beginPath(); });
-      canvas.addEventListener("mouseup", () => drawing = false);
-      canvas.addEventListener("mouseout", () => drawing = false);
-      canvas.addEventListener("mousemove", (e) => {
-        if (!drawing) return;
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        ctx.strokeStyle = "blue";
-        ctx.lineTo(e.offsetX, e.offsetY);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(e.offsetX, e.offsetY);
-      });
-    }
+        // Signature Canvases
+        const custCanvas = document.getElementById("customerSign");
+        const custCtx = custCanvas.getContext("2d");
+        setupDrawing(custCanvas, custCtx);
 
-    // Clear function
-    function clearCanvas(id, ctx, bgImage=null) {
-      const canvas = document.getElementById(id);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-    }
+        const therCanvas = document.getElementById("therapistSign");
+        const therCtx = therCanvas.getContext("2d");
+        setupDrawing(therCanvas, therCtx);
 
-    // Submit
-    function submitForm() {
-      const data = {
-        customerName: document.getElementById("customerName").value,
-        customerNumber: document.getElementById("customerNumber").value,
-        therapistName: document.getElementById("therapistName").value,
-        therapistNumber: document.getElementById("therapistNumber").value,
-        date: document.getElementById("date").value,
-        pressure: document.getElementById("pressure").value,
-        allergyDetails: document.getElementById("allergyDetails").value,
-        postpartumDetails: document.getElementById("postpartumDetails").value,
-        riskDetails: document.getElementById("riskDetails").value,
-        discomfortDetails: document.getElementById("discomfortDetails").value,
-        bodyDrawing: bodyCanvas.toDataURL("image/png"),
-        customerSignature: custCanvas.toDataURL("image/png"),
-        therapistSignature: therCanvas.toDataURL("image/png")
-      };
-      console.log("Form Submitted:", data);
-      alert("Form submitted! (Open console to see data)");
-    }
-  </script>
+        // Drawing function
+        function setupDrawing(canvas, ctx) {
+            let drawing = false;
+            canvas.addEventListener("mousedown", () => { drawing = true; ctx.beginPath(); });
+            canvas.addEventListener("mouseup", () => drawing = false);
+            canvas.addEventListener("mouseout", () => drawing = false);
+            canvas.addEventListener("mousemove", (e) => {
+                if (!drawing) return;
+                ctx.lineWidth = 2;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = "blue";
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+            });
+        }
 
+        // Clear function
+        function clearCanvas(id, ctx, bgImage = null) {
+            const canvas = document.getElementById(id);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        // Function to capture canvas data and then submit the form
+        function captureCanvasData() {
+            // Populate the hidden input fields with data URLs from the canvases
+            document.getElementById("bodyDrawing").value = bodyCanvas.toDataURL("image/png");
+            document.getElementById("customerSignature").value = custCanvas.toDataURL("image/png");
+            document.getElementById("therapistSignature").value = therCanvas.toDataURL("image/png");
+        }
+    </script>
 </body>
 </html>
