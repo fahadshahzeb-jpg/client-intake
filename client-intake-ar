@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج إقرار العميل</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 20px; text-align: right; }
+        .form-section { margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        input[type="text"], input[type="date"], textarea, select { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 5px; }
+        input[type="radio"] { width: auto; margin-left: 5px; }
+        canvas { border: 2px solid #333; cursor: crosshair; margin-top: 10px; }
+        button { margin-top: 10px; padding: 8px 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>نموذج إقرار العميل</h2>
+
+    <form id="clientForm" onsubmit="captureCanvasData()" action="https://script.google.com/macros/s/AKfycbxdwLQwE1O3UIVNkgKv_Nkhgui5wTJQmOOxGa_B8Cx6GIX-wTuUiV36cGB7DrERhMzG/exec" method="post">
+        
+        <div class="form-section">
+            <label for="customerName">1. الاسم الكامل:</label>
+            <input type="text" id="customerName" name="customerName" required>
+
+            <label for="customerNumber">2. رقم الجوال:</label>
+            <input type="text" id="customerNumber" name="customerNumber" required>
+
+            <label for="therapistName">3. اسم الموظف:</label>
+            <input type="text" id="therapistName" name="therapistName" required>
+
+            <label for="therapistNumber">4. رقم جوال الموظف:</label>
+            <input type="text" id="therapistNumber" name="therapistNumber" required>
+
+            <label for="date">5. تاريخ:</label>
+            <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="form-section">
+            <label>6. هل طلبت خدمة مساج سابقًا؟</label>
+            <input type="radio" id="massageBeforeYes" name="massageBefore" value="نعم"> <label for="massageBeforeYes">نعم</label>
+            <input type="radio" id="massageBeforeNo" name="massageBefore" value="لا"> <label for="massageBeforeNo">لا</label>
+
+            <label>7. هل سبق لك أن واجهت رد فعل تحسسي أو تهيج من أي نوع من منتجات الأظافر أو البشرة؟</label>
+            <input type="radio" id="allergyYes" name="allergy" value="نعم"> <label for="allergyYes">نعم</label>
+            <input type="radio" id="allergyNo" name="allergy" value="لا"> <label for="allergyNo">لا</label>
+            <br>إذا كانت الإجابة نعم، يرجى التحديد: <input type="text" id="allergyDetails" name="تفاصيل الحساسية">
+
+            <label>8. هل أنتِ حامل حاليًا؟</label>
+            <input type="radio" id="pregnantYes" name="pregnant" value="نعم"> <label for="pregnantYes">نعم</label>
+            <input type="radio" id="pregnantNo" name="pregnant" value="لا"> <label for="pregnantNo">لا</label>
+
+            <label>9. هل أنتِ الآن في مرحلة ما بعد الولادة؟</label>
+            <input type="radio" id="postpartumYes" name="postpartum" value="نعم"> <label for="postpartumYes">نعم</label>
+            <input type="radio" id="postpartumNo" name="postpartum" value="لا"> <label for="postpartumNo">لا</label>
+            <br>إذا كانت الإجابة نعم، يرجى التحديد: <input type="text" id="postpartumDetails" name="تفاصيل ما بعد الولادة">
+
+            <label>10. هل أنتِ حائض حاليًا؟</label>
+            <input type="radio" id="menstruatingYes" name="menstruating" value="نعم"> <label for="menstruatingYes">نعم</label>
+            <input type="radio" id="menstruatingNo" name="menstruating" value="لا"> <label for="menstruatingNo">لا</label>
+
+            <label>11. هل هناك عوامل خطورة عالية؟</label>
+            <input type="radio" id="riskYes" name="risk" value="نعم"> <label for="riskYes">نعم</label>
+            <input type="radio" id="riskNo" name="risk" value="لا"> <label for="riskNo">لا</label>
+            <br>إذا كانت الإجابة نعم، يرجى التحديد: <input type="text" id="riskDetails" name="تفاصيل المخاطر">
+        </div>
+
+        <div class="form-section">
+            <label>12. يرجى تحديد المناطق التي ترغبين بالتركيز عليها اليوم:</label>
+            <canvas id="bodyCanvas" width="400" height="600"></canvas><br>
+            <button type="button" onclick="clearCanvas('bodyCanvas', bodyCtx, bodyImage)">مسح الرسم</button>
+        </div>
+
+        <div class="form-section">
+            <label>13. هل هناك أي مناطق تشعرين فيها بعدم راحة؟</label>
+            <input type="radio" id="discomfortYes" name="discomfort" value="نعم"> <label for="discomfortYes">نعم</label>
+            <input type="radio" id="discomfortNo" name="discomfort" value="لا"> <label for="discomfortNo">لا</label>
+            <br>إذا كانت الإجابة نعم، يرجى التحديد: <textarea id="discomfortDetails" name="discomfortDetails" rows="3" cols="40"></textarea>
+        </div>
+
+        <div class="form-section">
+            <label for="pressure">14. ما نوع الضغط الذي تفضلينه؟</label>
+            <select id="pressure" name="pressure">
+                <option value="خفيف">خفيف</option>
+                <option value="متوسط">متوسط</option>
+                <option value="عالي">عالي</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <p><b>إقرار:</b><br>
+                أُقر أنني قرأت هذا النموذج الاستشاري بعناية، وفهمت جميع الأسئلة المطروحة. أعتقد أنه ليست
+                لدي أي حالة طبية قد تؤثر على العلاج. جميع الإجابات التي قدمتها صحيحة ودقيقة وفقًا لمعرفتي.
+            </p>
+        </div>
+
+        <div class="form-section">
+            <label>توقيع العميل:</label>
+            <canvas id="customerSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('customerSign', custCtx)">مسح التوقيع</button>
+
+            <label>توقيع الموظف:</label>
+            <canvas id="therapistSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('therapistSign', therCtx)">مسح التوقيع</button>
+        </div>
+
+        <input type="hidden" name="bodyDrawing" id="bodyDrawing">
+        <input type="hidden" name="customerSignature" id="customerSignature">
+        <input type="hidden" name="therapistSignature" id="therapistSignature">
+
+        <button type="submit">إرسال النموذج</button>
+    </form>
+
+    <script>
+        // Body Diagram Canvas
+        const bodyCanvas = document.getElementById("bodyCanvas");
+        const bodyCtx = bodyCanvas.getContext("2d");
+        const bodyImage = new Image();
+        // NOTE: Make sure the 'body-diagram.png' image is in the same folder as this HTML file.
+        bodyImage.src = "body-diagram.png";
+        bodyImage.onload = () => bodyCtx.drawImage(bodyImage, 0, 0, bodyCanvas.width, bodyCanvas.height);
+        setupDrawing(bodyCanvas, bodyCtx);
+
+        // Signature Canvases
+        const custCanvas = document.getElementById("customerSign");
+        const custCtx = custCanvas.getContext("2d");
+        setupDrawing(custCanvas, custCtx);
+
+        const therCanvas = document.getElementById("therapistSign");
+        const therCtx = therCanvas.getContext("2d");
+        setupDrawing(therCanvas, therCtx);
+
+        // Drawing function for both mouse and touch
+        function setupDrawing(canvas, ctx) {
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let touchMoved = false;
+
+            ctx.lineWidth = 3; // Set line width for drawing
+            ctx.lineCap = "round"; // Make lines round for a smoother look
+
+            function getCoords(e) {
+                const rect = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return {
+                        x: e.touches[0].clientX - rect.left,
+                        y: e.touches[0].clientY - rect.top
+                    };
+                } else {
+                    return {
+                        x: e.offsetX,
+                        y: e.offsetY
+                    };
+                }
+            }
+
+            function draw(x, y) {
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                [lastX, lastY] = [x, y];
+            }
+
+            // Mouse events
+            canvas.addEventListener("mousedown", (e) => {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            });
+            canvas.addEventListener("mousemove", (e) => {
+                if (!isDrawing) return;
+                draw(e.offsetX, e.offsetY);
+            });
+            canvas.addEventListener("mouseup", () => isDrawing = false);
+            canvas.addEventListener("mouseout", () => isDrawing = false);
+
+            // Touch events
+            canvas.addEventListener("touchstart", (e) => {
+                isDrawing = true;
+                touchMoved = false;
+                const { x, y } = getCoords(e);
+                [lastX, lastY] = [x, y];
+                e.preventDefault();
+            });
+            canvas.addEventListener("touchmove", (e) => {
+                if (!isDrawing) return;
+                touchMoved = true;
+                const { x, y } = getCoords(e);
+                draw(x, y);
+                e.preventDefault();
+            });
+            canvas.addEventListener("touchend", () => {
+                isDrawing = false;
+                if (!touchMoved) {
+                    // This handles single taps, drawing a small dot
+                    ctx.beginPath();
+                    ctx.arc(lastX, lastY, 1, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+                touchMoved = false;
+            });
+            canvas.addEventListener("touchcancel", () => isDrawing = false);
+        }
+
+        // Clear function
+        function clearCanvas(id, ctx, bgImage = null) {
+            const canvas = document.getElementById(id);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        // Function to capture canvas data and then submit the form
+        // This function is now called by the form's onsubmit event
+        function captureCanvasData() {
+            document.getElementById("bodyDrawing").value = bodyCanvas.toDataURL("image/png");
+            document.getElementById("customerSignature").value = custCanvas.toDataURL("image/png");
+            document.getElementById("therapistSignature").value = therCanvas.toDataURL("image/png");
+        }
+    </script>
+</body>
+</html>
