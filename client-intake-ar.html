@@ -27,10 +27,10 @@
             <label for="customerNumber">2. رقم الجوال:</label>
             <input type="text" id="customerNumber" name="customerNumber" required>
 
-            <label for="therapistName">3. اسم الموظف:</label>
+            <label for="therapistName">3. اسم الأخصائية:</label>
             <input type="text" id="therapistName" name="therapistName" required>
 
-            <label for="therapistNumber">4. رقم جوال الموظف:</label>
+            <label for="therapistNumber">4. رقم جوال الأخصائية:</label>
             <input type="text" id="therapistNumber" name="therapistNumber" required>
 
             <label for="date">5. تاريخ:</label>
@@ -90,8 +90,8 @@
 
         <div class="form-section">
             <p><b>إقرار:</b><br>
-                أُقر أنني قرأت هذا النموذج الاستشاري بعناية، وفهمت جميع الأسئلة المطروحة. أعتقد أنه ليست
-                لدي أي حالة طبية قد تؤثر على العلاج. جميع الإجابات التي قدمتها صحيحة ودقيقة وفقًا لمعرفتي.
+               أُقر أنني قرأت هذا النموذج الاستشاري بعناية، وفهمت جميع الأسئلة الواردة فيه.
+                أؤكد أنه ليست لدي أي حالة طبية قد تؤثر على العلاج،وأن جميع المعلومات التي قدمتها صحيحة ودقيقة
             </p>
         </div>
 
@@ -100,7 +100,7 @@
             <canvas id="customerSign" width="400" height="150"></canvas><br>
             <button type="button" onclick="clearCanvas('customerSign', custCtx)">مسح التوقيع</button>
 
-            <label>توقيع الموظف:</label>
+            <label>توقيع الأخصائية:</label>
             <canvas id="therapistSign" width="400" height="150"></canvas><br>
             <button type="button" onclick="clearCanvas('therapistSign', therCtx)">مسح التوقيع</button>
         </div>
