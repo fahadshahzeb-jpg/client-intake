@@ -16,8 +16,7 @@
 
     <h2>Client Declaration Form</h2>
 
-
-    <form id="clientForm" action="https://script.google.com/macros/s/AKfycbyUA9uichjelsa7EObsP3W3zfEe63bOPX_tTXZSmhLJMcFKsw944hMl0K5ZTwoWplZI/exec" method="post" onsubmit="captureCanvasData();">
+    <form id="clientForm">
         
         <div class="form-section">
             <label>1. Customer Name:</label>
@@ -109,11 +108,13 @@
         <input type="hidden" name="customerSignature" id="customerSignature">
         <input type="hidden" name="therapistSignature" id="therapistSignature">
 
-        <button type="submit">Submit Form</button>
+        <button id="submitBtn">Submit Form</button>
 
     </form>
 
     <script>
+        // ... (your drawing functions from the old file go here)
+
         // Body Diagram Canvas
         const bodyCanvas = document.getElementById("bodyCanvas");
         const bodyCtx = bodyCanvas.getContext("2d");
@@ -208,13 +209,35 @@
             if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
         }
 
-        // Function to capture canvas data and then submit the form
-        function captureCanvasData() {
-            // Populate the hidden input fields with data URLs from the canvases
-            document.getElementById("bodyDrawing").value = bodyCanvas.toDataURL("image/png");
-            document.getElementById("customerSignature").value = custCanvas.toDataURL("image/png");
-            document.getElementById("therapistSignature").value = therCanvas.toDataURL("image/png");
-        }
+        // This is the new, primary function that handles the entire form submission.
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyUA9uichjelsa7EObsP3W3zfEe63bOPX_tTXZSmhLJMcFKsw944hMl0K5ZTwoWplZI/exec';
+
+            const form = document.getElementById('clientForm');
+            const formData = new FormData(form);
+
+            // Manually append the canvas data
+            formData.append("bodyDrawing", bodyCanvas.toDataURL("image/png"));
+            formData.append("customerSignature", custCanvas.toDataURL("image/png"));
+            formData.append("therapistSignature", therCanvas.toDataURL("image/png"));
+            
+            // Send the data using Fetch API
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert("Form submitted successfully!");
+                console.log(data);
+            })
+            .catch(error => {
+                alert("An error occurred. Please try again.");
+                console.error('Error:', error);
+            });
+        });
     </script>
 </body>
 </html>
