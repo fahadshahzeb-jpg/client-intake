@@ -103,15 +103,11 @@
             <canvas id="therapistSign" width="400" height="150"></canvas><br>
             <button type="button" onclick="clearCanvas('therapistSign', therCtx)">Clear Signature</button>
         </div>
-
-        <input type="hidden" name="bodyDrawing" id="bodyDrawing">
-        <input type="hidden" name="customerSignature" id="customerSignature">
-        <input type="hidden" name="therapistSignature" id="therapistSignature">
-
+        
         <button id="submitBtn">Submit Form</button>
 
     </form>
-
+    
     <script>
         // ... (your drawing functions from the old file go here)
 
@@ -213,7 +209,7 @@
         document.getElementById('submitBtn').addEventListener('click', function(event) {
             event.preventDefault(); 
             
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyUA9uichjelsa7EObsP3W3zfEe63bOPX_tTXZSmhLJMcFKsw944hMl0K5ZTwoWplZI/exec';
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbx2jgF-LE6aBv0V1lg4PZje9dk9OPx3qO4i0e1pLrWRw8NmYojX_zDPKrZly0jkyut6/exec';
 
             const form = document.getElementById('clientForm');
             const formData = new FormData(form);
