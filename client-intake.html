@@ -16,7 +16,7 @@
 
     <h2>Client Declaration Form</h2>
 
-    <form id="clientForm" action="https://script.google.com/macros/s/AKfycbx2jgF-LE6aBv0V1lg4PZje9dk9OPx3qO4i0e1pLrWRw8NmYojX_zDPKrZly0jkyut6/exec" method="post" onsubmit="captureCanvasData(); return true;">
+    <form id="clientForm">
         
         <div class="form-section">
             <label>1. Customer Name:</label>
@@ -103,14 +103,12 @@
             <canvas id="therapistSign" width="400" height="150"></canvas><br>
             <button type="button" onclick="clearCanvas('therapistSign', therCtx)">Clear Signature</button>
         </div>
-        
+
         <button id="submitBtn">Submit Form</button>
 
     </form>
     
     <script>
-        // ... (your drawing functions from the old file go here)
-
         // Body Diagram Canvas
         const bodyCanvas = document.getElementById("bodyCanvas");
         const bodyCtx = bodyCanvas.getContext("2d");
@@ -237,3 +235,5 @@
     </script>
 </body>
 </html>
+
+This is the HTML code
