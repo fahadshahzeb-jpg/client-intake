@@ -1,97 +1,292 @@
-<div class="form-section">
-    <label>1. Customer Name:</label>
-    <input type="text" id="customerName" name="customerName" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prenatal Client Intake Form</title>
+    <style>
+        /* Basic Styling for readability and mobile use */
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 { text-align: center; color: #333; }
+        .form-section { 
+            margin-bottom: 25px; 
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        label { 
+            font-weight: bold; 
+            display: block; 
+            margin-top: 10px; 
+        }
+        input[type="text"], input[type="date"], textarea, select {
+            width: 95%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        /* Style for the Checkbox list */
+        .checkbox-list label { 
+            font-weight: normal; 
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            padding: 4px 0;
+        }
+        /* Canvas Styling */
+        canvas { 
+            border: 2px solid #333; 
+            cursor: crosshair; 
+            margin-top: 10px; 
+            width: 100%; /* Make canvas responsive */
+            height: auto;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        button[type="submit"]:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
 
-    <label>2. Customer Number:</label>
-    <input type="text" id="customerNumber" name="customerNumber" required>
+    <h2>Prenatal Client Intake Form</h2>
 
-    <label>3. Therapist Name:</label>
-    <input type="text" id="therapistName" name="therapistName" required>
+    <form id="clientForm" action="[REPLACE_WITH_YOUR_GOOGLE_APPS_SCRIPT_URL]" method="post" onsubmit="captureCanvasData();">
 
-    <label>4. Therapist Number:</label>
-    <input type="text" id="therapistNumber" name="therapistNumber" required>
+        <div class="form-section">
+            <h3>Basic Information</h3>
+            <label>Customer Name -</label>
+            <input type="text" id="customerName" name="customerName" required>
 
-    <label>5. Date:</label>
-    <input type="date" id="date" name="date" required>
-</div>
+            <label>Customer Number -</label>
+            <input type="text" id="customerNumber" name="customerNumber" required>
 
-<hr>
+            <label>Therapist Name -</label>
+            <input type="text" id="therapistName" name="therapistName" required>
 
-<div class="form-section">
-    <h3>Pregnancy Details</h3>
-    <p>Congratulations! How have you been feeling during your pregnancy?</p>
-    <textarea id="feelingDetails" name="feelingDetails" rows="2" cols="40"></textarea>
+            <label>Therapist Number -</label>
+            <input type="text" id="therapistNumber" name="therapistNumber" required>
 
-    <label>6. Have you received massage therapy or bodywork before during pregnancy?</label>
-    <input type="radio" name="massageDuringPregnancy" value="Yes"> Yes
-    <input type="radio" name="massageDuringPregnancy" value="No"> No
+            <label>Date -</label>
+            <input type="date" id="date" name="date" required>
+        </div>
 
-    <label>7. Have you ever experienced allergic reaction or irritation from any type of oil or skin product?</label>
-    <input type="radio" name="allergy" value="Yes"> Yes
-    <input type="radio" name="allergy" value="No"> No
-    <br>If yes, please specify: <input type="text" id="allergyDetails" name="allergyDetails">
+        <div class="form-section">
+            <h3>Consultation Questions</h3>
+            <label>Congratulations! How have you been feeling during your pregnancy?</label>
+            <textarea id="feelingDetails" name="feelingDetails" rows="3"></textarea>
 
-    <label>8. Have you consulted your gynecologist/physician before taking this massage session?</label>
-    <input type="radio" name="consultedPhysician" value="Yes"> Yes
-    <input type="radio" name="consultedPhysician" value="No"> No
-    
-    <p>Massage in the first 3 months of pregnancy is generally not considered safe.</p>
-    <label>9. How far along are you?</label>
-    <select id="pregnancyTerm" name="pregnancyTerm">
-        <option value="">--Select--</option>
-        <option value="1-3 months">1-3 months</option>
-        <option value="4-6 months">4-6 months</option>
-        <option value="6+ months">6+ months</option>
-    </select>
-    
-    <label>10. Are there any areas of discomfort or any risk factors? Please specify:</label>
-    <textarea id="discomfortOrRisk" name="discomfortOrRisk" rows="3" cols="40"></textarea>
-</div>
+            <label>Have you received massage therapy or bodywork before during pregnancy? (MCQ - Yes or no)</label>
+            <input type="radio" name="massageDuringPregnancy" value="Yes"> Yes
+            <input type="radio" name="massageDuringPregnancy" value="No"> No
 
-<hr>
+            <label>Have you ever experienced allergic reaction or irritation from any type of oil or skin product? (MCQ - Yes or no)</label>
+            <input type="radio" name="allergy" value="Yes"> Yes
+            <input type="radio" name="allergy" value="No"> No
+            <br>
+            <label style="font-weight: normal; margin-top: 5px;">If yes, please specify:</label>
+            <input type="text" id="allergyDetails" name="allergyDetails">
 
-<div class="form-section">
-    <h3>Medical Conditions Checklist</h3>
-    <p>Please check any of the following medical conditions that apply:</p>
-    
-    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Fever"> Fever
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Abdominal Pain"> Abdominal Pain
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Bleeding"> Bleeding
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Vomiting"> Vomiting
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Allergies"> Allergies
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Preeclampsia"> Preeclampsia
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Anemia"> Anemia
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Infection"> Infection
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Morning Sickness"> Morning Sickness
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="High Blood Pressure"> High Blood Pressure
-        </label>
-        <label style="font-weight: normal; width: 45%;">
-            <input type="checkbox" name="medicalConditions" value="Nausea"> Nausea
-        </label>
-    </div>
-</div>
+            <label>Have you consulted your gynecologist/physician before taking this massage session? (MCQ - Yes or no)</label>
+            <input type="radio" name="consultedPhysician" value="Yes"> Yes
+            <input type="radio" name="consultedPhysician" value="No"> No
+            
+            <p style="font-style: italic; margin-top: 15px;">Massage in first 3 months of pregnancy is not considered safe.</p>
+            <label>How far along are you?</label>
+            <select id="pregnancyTerm" name="pregnancyTerm">
+                <option value="">--Select--</option>
+                <option value="1-3 months">1-3 months</option>
+                <option value="4-6 months">4-6 months</option>
+                <option value="6+ months">6+ months</option>
+            </select>
+            
+            <label>Are there any areas of discomfort or any risk factors? Please specify:</label>
+            <textarea id="discomfortOrRisk" name="discomfortOrRisk" rows="3"></textarea>
+        </div>
 
-<hr>
+        <div class="form-section">
+            <h3>Medical Conditions Checklist</h3>
+            <p>Please check any of the following medical conditions that apply:</p>
+            
+            <div class="checkbox-list" style="columns: 2;">
+                <label><input type="checkbox" name="medicalConditions" value="Fever"> Fever</label>
+                <label><input type="checkbox" name="medicalConditions" value="Abdominal Pain"> Abdominal Pain</label>
+                <label><input type="checkbox" name="medicalConditions" value="Bleeding"> Bleeding</label>
+                <label><input type="checkbox" name="medicalConditions" value="Vomiting"> Vomiting</label>
+                <label><input type="checkbox" name="medicalConditions" value="Allergies"> Allergies</label>
+                <label><input type="checkbox" name="medicalConditions" value="Preeclampsia"> Preeclampsia</label>
+                <label><input type="checkbox" name="medicalConditions" value="Anemia"> Anemia</label>
+                <label><input type="checkbox" name="medicalConditions" value="Infection"> Infection</label>
+                <label><input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes</label>
+                <label><input type="checkbox" name="medicalConditions" value="Morning Sickness"> Morning Sickness</label>
+                <label><input type="checkbox" name="medicalConditions" value="High Blood Pressure"> High Blood Pressure</label>
+                <label><input type="checkbox" name="medicalConditions" value="Nausea"> Nausea</label>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <label>Please circle areas where you would like to focus:</label>
+            <canvas id="bodyCanvas" width="400" height="600"></canvas><br>
+            <button type="button" onclick="clearCanvas('bodyCanvas', bodyCtx, bodyImage)">Clear Drawing</button>
+        </div>
+
+        <div class="form-section">
+            <h3>Declaration</h3>
+            <p style="font-style: italic;">
+                I declare that I have read this consultation form thoroughly and I understand every question asked. I believe I have no
+                medical condition that may affect the treatment. All of the given answer is correct and true to the best of my knowledge.
+            </p>
+        </div>
+
+        <div class="form-section">
+            <h3>Signatures</h3>
+            <label>Customer Signature:</label>
+            <canvas id="customerSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('customerSign', custCtx)">Clear Signature</button>
+
+            <label>Therapist Signature:</label>
+            <canvas id="therapistSign" width="400" height="150"></canvas><br>
+            <button type="button" onclick="clearCanvas('therapistSign', therCtx)">Clear Signature</button>
+        </div>
+
+        <input type="hidden" name="bodyDrawing" id="bodyDrawing">
+        <input type="hidden" name="customerSignature" id="customerSignature">
+        <input type="hidden" name="therapistSignature" id="therapistSignature">
+
+        <button type="submit" id="submitButton" onclick="this.disabled=true;">Submit Form</button>
+
+    </form>
+    <script>
+        // --- START CANVAS SETUP ---
+        const bodyCanvas = document.getElementById("bodyCanvas");
+        const bodyCtx = bodyCanvas.getContext("2d");
+        const bodyImage = new Image();
+        // Assuming your body diagram image is correctly named and in the same directory
+        bodyImage.src = "body-diagram.png";
+        bodyImage.onload = () => bodyCtx.drawImage(bodyImage, 0, 0, bodyCanvas.width, bodyCanvas.height);
+        setupDrawing(bodyCanvas, bodyCtx);
+
+        const custCanvas = document.getElementById("customerSign");
+        const custCtx = custCanvas.getContext("2d");
+        setupDrawing(custCanvas, custCtx);
+
+        const therCanvas = document.getElementById("therapistSign");
+        const therCtx = therCanvas.getContext("2d");
+        setupDrawing(therCanvas, therCtx);
+
+        // --- DRAWING LOGIC (TOUCH & MOUSE FIX) ---
+        function setupDrawing(canvas, ctx) {
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let touchMoved = false;
+
+            function getCoords(e) {
+                const rect = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return {
+                        x: e.touches[0].clientX - rect.left,
+                        y: e.touches[0].clientY - rect.top
+                    };
+                } else {
+                    return {
+                        x: e.offsetX,
+                        y: e.offsetY
+                    };
+                }
+            }
+
+            function draw(x, y) {
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                [lastX, lastY] = [x, y];
+            }
+
+            // Mouse events
+            canvas.addEventListener("mousedown", (e) => {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            });
+            canvas.addEventListener("mousemove", (e) => {
+                if (!isDrawing) return;
+                ctx.lineWidth = 2;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = "blue";
+                draw(e.offsetX, e.offsetY);
+            });
+            canvas.addEventListener("mouseup", () => isDrawing = false);
+            canvas.addEventListener("mouseout", () => isDrawing = false);
+
+            // Touch events
+            canvas.addEventListener("touchstart", (e) => {
+                isDrawing = true;
+                touchMoved = false;
+                const { x, y } = getCoords(e);
+                [lastX, lastY] = [x, y];
+                e.preventDefault();
+            });
+            canvas.addEventListener("touchmove", (e) => {
+                if (!isDrawing) return;
+                touchMoved = true;
+                const { x, y } = getCoords(e);
+                ctx.lineWidth = 2;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = "blue";
+                draw(x, y);
+                e.preventDefault();
+            });
+            canvas.addEventListener("touchend", () => {
+                isDrawing = false;
+                if (!touchMoved) {
+                    // This handles single taps
+                    ctx.beginPath();
+                    ctx.arc(lastX, lastY, 1, 0, 2 * Math.PI);
+                    ctx.fill();
+                }
+                touchMoved = false;
+            });
+            canvas.addEventListener("touchcancel", () => isDrawing = false);
+            
+            // Safety measure to ensure drawing stops correctly
+            document.body.addEventListener("mouseup", () => isDrawing = false);
+            document.body.addEventListener("touchend", () => isDrawing = false);
+        }
+
+        // Clear function
+        function clearCanvas(id, ctx, bgImage = null) {
+            const canvas = document.getElementById(id);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        }
+
+        // Function to capture canvas data and then submit the form
+        function captureCanvasData() {
+            // Populate the hidden input fields with data URLs from the canvases
+            document.getElementById("bodyDrawing").value = bodyCanvas.toDataURL("image/png");
+            document.getElementById("customerSignature").value = custCanvas.toDataURL("image/png");
+            document.getElementById("therapistSignature").value = therCanvas.toDataURL("image/png");
+        }
+    </script>
+</body>
+</html>
