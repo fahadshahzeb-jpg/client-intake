@@ -1,0 +1,97 @@
+<div class="form-section">
+    <label>1. Customer Name:</label>
+    <input type="text" id="customerName" name="customerName" required>
+
+    <label>2. Customer Number:</label>
+    <input type="text" id="customerNumber" name="customerNumber" required>
+
+    <label>3. Therapist Name:</label>
+    <input type="text" id="therapistName" name="therapistName" required>
+
+    <label>4. Therapist Number:</label>
+    <input type="text" id="therapistNumber" name="therapistNumber" required>
+
+    <label>5. Date:</label>
+    <input type="date" id="date" name="date" required>
+</div>
+
+<hr>
+
+<div class="form-section">
+    <h3>Pregnancy Details</h3>
+    <p>Congratulations! How have you been feeling during your pregnancy?</p>
+    <textarea id="feelingDetails" name="feelingDetails" rows="2" cols="40"></textarea>
+
+    <label>6. Have you received massage therapy or bodywork before during pregnancy?</label>
+    <input type="radio" name="massageDuringPregnancy" value="Yes"> Yes
+    <input type="radio" name="massageDuringPregnancy" value="No"> No
+
+    <label>7. Have you ever experienced allergic reaction or irritation from any type of oil or skin product?</label>
+    <input type="radio" name="allergy" value="Yes"> Yes
+    <input type="radio" name="allergy" value="No"> No
+    <br>If yes, please specify: <input type="text" id="allergyDetails" name="allergyDetails">
+
+    <label>8. Have you consulted your gynecologist/physician before taking this massage session?</label>
+    <input type="radio" name="consultedPhysician" value="Yes"> Yes
+    <input type="radio" name="consultedPhysician" value="No"> No
+    
+    <p>Massage in the first 3 months of pregnancy is generally not considered safe.</p>
+    <label>9. How far along are you?</label>
+    <select id="pregnancyTerm" name="pregnancyTerm">
+        <option value="">--Select--</option>
+        <option value="1-3 months">1-3 months</option>
+        <option value="4-6 months">4-6 months</option>
+        <option value="6+ months">6+ months</option>
+    </select>
+    
+    <label>10. Are there any areas of discomfort or any risk factors? Please specify:</label>
+    <textarea id="discomfortOrRisk" name="discomfortOrRisk" rows="3" cols="40"></textarea>
+</div>
+
+<hr>
+
+<div class="form-section">
+    <h3>Medical Conditions Checklist</h3>
+    <p>Please check any of the following medical conditions that apply:</p>
+    
+    <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Fever"> Fever
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Abdominal Pain"> Abdominal Pain
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Bleeding"> Bleeding
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Vomiting"> Vomiting
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Allergies"> Allergies
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Preeclampsia"> Preeclampsia
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Anemia"> Anemia
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Infection"> Infection
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Diabetes"> Diabetes
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Morning Sickness"> Morning Sickness
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="High Blood Pressure"> High Blood Pressure
+        </label>
+        <label style="font-weight: normal; width: 45%;">
+            <input type="checkbox" name="medicalConditions" value="Nausea"> Nausea
+        </label>
+    </div>
+</div>
+
+<hr>
