@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hair Removal Service - Client Intake Form</title>
     <style>
-        /* --- STYLES (Kept for clarity) --- */
+        /* --- STYLES --- */
         body { 
             font-family: Arial, sans-serif; 
             margin: 20px; 
@@ -46,9 +46,7 @@
             width: 100%; 
             height: auto;
         }
-        button[type="submit"] {
-            display: block;
-            width: 100%;
+        button {
             padding: 12px;
             margin-top: 20px;
             background-color: #007bff;
@@ -58,13 +56,17 @@
             font-size: 1.1em;
             cursor: pointer;
         }
+        #submitBtn {
+            width: 100%;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
     <h2>Hair Removal Service - Client Intake Form</h2>
 
-    <form id="clientForm" action="https://formsubmit.co/[YOUR_EMAIL_ADDRESS]" method="POST" onsubmit="captureCanvasData();">
+    <form id="clientForm">
 
         <div class="form-section">
             <label>Client Name:</label>
@@ -96,8 +98,8 @@
             <p style="font-size: 0.9em; margin-top: 5px;">*Honey is advised for sensitive skin. Banana is advised for normal skin.</p>
             <select name="waxFlavour" required>
                 <option value="">--Select Preference--</option>
-                <option value="Honey">Honey (Sensitive Skin)</option>
-                <option value="Banana">Banana (Normal Skin)</option>
+                <option value="Honey (Sensitive Skin)">Honey (Sensitive Skin)</option>
+                <option value="Banana (Normal Skin)">Banana (Normal Skin)</option>
             </select>
         </div>
 
@@ -174,15 +176,13 @@
             <button type="button" onclick="clearCanvas('attendantSign', attCtx)">Clear Signature</button>
         </div>
 
-        <input type="hidden" name="customerSignature" id="customerSignature">
-        <input type="hidden" name="attendantSignature" id="attendantSignature">
-        
-        <input type="hidden" name="_captcha" value="false">
-
-        <button type="submit" id="submitButton" onclick="this.disabled=true;">Submit Consultation Form</button>
+        <button id="submitBtn" type="submit">Submit Consultation Form</button>
     </form>
     <script>
-        // Setup signature canvases
+        // Set your Apps Script URL here
+        const scriptUrl = '[REPLACE_WITH_YOUR_APPS_SCRIPT_URL]';
+
+        // --- CANVAS SETUP ---
         const custCanvas = document.getElementById("customerSign");
         const custCtx = custCanvas.getContext("2d");
         setupDrawing(custCanvas, custCtx);
@@ -191,7 +191,7 @@
         const attCtx = attCanvas.getContext("2d");
         setupDrawing(attCanvas, attCtx);
 
-        // --- DRAWING LOGIC (TOUCH & MOUSE FIX) ---
+        // --- DRAWING LOGIC (Same as the working code you provided) ---
         function setupDrawing(canvas, ctx) {
             let isDrawing = false;
             let lastX = 0;
@@ -236,7 +236,7 @@
             canvas.addEventListener("mouseup", () => isDrawing = false);
             canvas.addEventListener("mouseout", () => isDrawing = false);
 
-            // Touch events
+            // Touch events (Ensures mobile signing works)
             canvas.addEventListener("touchstart", (e) => {
                 isDrawing = true;
                 touchMoved = false;
@@ -257,7 +257,6 @@
             canvas.addEventListener("touchend", () => {
                 isDrawing = false;
                 if (!touchMoved) {
-                    // This handles single taps
                     ctx.beginPath();
                     ctx.arc(lastX, lastY, 1, 0, 2 * Math.PI);
                     ctx.fill();
@@ -265,8 +264,6 @@
                 touchMoved = false;
             });
             canvas.addEventListener("touchcancel", () => isDrawing = false);
-            
-            // Safety measure to ensure drawing stops correctly
             document.body.addEventListener("mouseup", () => isDrawing = false);
             document.body.addEventListener("touchend", () => isDrawing = false);
         }
@@ -277,12 +274,50 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Function to capture canvas data and then submit the form
-        function captureCanvasData() {
-            // Populate the hidden input fields with data URLs from the canvases
-            document.getElementById("customerSignature").value = custCanvas.toDataURL("image/png");
-            document.getElementById("attendantSignature").value = attCanvas.toDataURL("image/png");
-        }
+        // --- SUBMISSION HANDLER (Uses Fetch API) ---
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Stop default form submission
+
+            const form = document.getElementById('clientForm');
+
+            // Simple validation check (e.g., required fields)
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Disable button immediately to prevent multiple submissions
+            event.target.disabled = true;
+
+            const formData = new FormData(form);
+
+            // Manually append the canvas data URLs
+            formData.append("customerSignature", custCanvas.toDataURL("image/png"));
+            formData.append("attendantSignature", attCanvas.toDataURL("image/png"));
+            
+            // Send the data using Fetch API to Google Apps Script
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Form submitted successfully! Check your Google Sheet.");
+                } else {
+                    alert("Submission failed. Check Apps Script logs.");
+                    console.error('Server error:', response.statusText);
+                }
+            })
+            .catch(error => {
+                alert("An error occurred. Check your console for network issues.");
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                // Re-enable the button or remove the form after submission
+                event.target.disabled = false;
+                // Optional: You could redirect the user here.
+            });
+        });
     </script>
 </body>
 </html>
