@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pre-Service Skin Consultation — Waxing/Threading/Bleaching</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#0f766e;
+      --danger:#dc2626;
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#eef2ff 0%, var(--bg) 100%);
+      color:#0f172a;
+      padding:24px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow: 0 6px 28px rgba(15,23,42,0.08);
+      padding:28px;
+    }
+    h1{
+      margin:0 0 8px 0;
+      font-size:20px;
+      letter-spacing: -0.2px;
+    }
+    p.lead{ margin:0 0 18px 0; color:var(--muted); font-size:14px; }
+    form { display:grid; gap:16px; }
+    .row { display:flex; gap:16px; flex-wrap:wrap; }
+    .field { background:#fafafa; padding:12px; border-radius:10px; border:1px solid rgba(15,23,42,0.04); flex:1 1 320px; }
+    label { display:block; font-weight:600; margin-bottom:6px; font-size:13px; }
+    .hint{ font-size:13px; color:var(--muted); margin-bottom:8px; }
+    .options { display:flex; gap:12px; flex-wrap:wrap; }
+    input[type="radio"], input[type="checkbox"] { transform:scale(1.05); margin-right:6px; }
+    select, input[type="text"], textarea {
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid rgba(15,23,42,0.08);
+      background:white;
+      font-size:14px;
+      resize:vertical;
+    }
+    textarea { min-height:80px; }
+    .small { font-size:13px; color:var(--muted); margin-top:6px; }
+    .signature-wrap { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-start; }
+    .sig-card { background:#fff; border:1px dashed rgba(15,23,42,0.08); padding:10px; border-radius:8px; width:100%; max-width:420px; }
+    canvas { width:100%; height:150px; border-radius:6px; background:#fff; touch-action: none; }
+    .sig-controls { display:flex; gap:8px; margin-top:8px; }
+    button {
+      background:var(--accent);
+      color:white;
+      padding:10px 14px;
+      border-radius:10px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+    }
+    button.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid rgba(15,118,110,0.12);
+    }
+    .danger{ background:var(--danger); }
+    .preview { background:#0f172a11; padding:12px; border-radius:8px; font-family:monospace; font-size:13px; white-space:pre-wrap; }
+    @media (max-width:640px){
+      .field { flex:1 1 100%; }
+      .signature-wrap { flex-direction:column; }
+      canvas{ height:130px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main">
+    <h1>Pre-Service Skin Consultation</h1>
+    <p class="lead">Please answer all applicable questions. If you're unsure about anything, inform your attendant before the service begins.</p>
+
+    <form id="consultForm" autocomplete="off" novalidate>
+      <div class="row">
+        <div class="field" aria-labelledby="q-waxed">
+          <label id="q-waxed">Have you received waxing, threading or bleaching before?</label>
+          <div class="options" role="radiogroup" aria-labelledby="q-waxed">
+            <label><input type="radio" name="received_before" value="Yes" required> Yes</label>
+            <label><input type="radio" name="received_before" value="No"> No</label>
+          </div>
+          <div class="small">Select one.</div>
+        </div>
+
+        <div class="field" aria-labelledby="q-wax-flavour">
+          <label id="q-wax-flavour">Which wax flavour do you prefer? <span class="small">(Honey advised for sensitive skin; Banana advised for normal skin)</span></label>
+          <div class="options" role="radiogroup" aria-labelledby="q-wax-flavour">
+            <label><input type="radio" name="wax_flavour" value="Banana" required> Banana</label>
+            <label><input type="radio" name="wax_flavour" value="Honey"> Honey</label>
+          </div>
+        </div>
+
+        <div class="field" aria-labelledby="q-wax-method">
+          <label id="q-wax-method">Which wax method do you prefer?</label>
+          <div class="options" role="radiogroup" aria-labelledby="q-wax-method">
+            <label><input type="radio" name="wax_method" value="Tin" required> Tin</label>
+            <label><input type="radio" name="wax_method" value="Roll-on"> Roll-on</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" aria-labelledby="q-recent-procedures">
+        <label id="q-recent-procedures">Have you undergone any chemical peel, laser treatment, or microdermabrasion in the last 7 to 14 days?</label>
+        <div class="options" role="radiogroup" aria-labelledby="q-recent-procedures">
+          <label><input type="radio" name="recent_treatment" value="Yes" required> Yes</label>
+          <label><input type="radio" name="recent_treatment" value="No"> No</label>
+        </div>
+        <div id="recent_treatment_details" style="display:none; margin-top:8px;">
+          <label>If yes, please specify</label>
+          <textarea name="recent_treatment_spec" placeholder="Describe treatment, date, area..."></textarea>
+        </div>
+      </div>
+
+      <div class="field" aria-labelledby="q-allergy">
+        <label id="q-allergy">Have you ever experienced allergic reaction or irritation from any type of waxing, threading, bleaching or any other skin product?</label>
+        <div class="options" role="radiogroup" aria-labelledby="q-allergy">
+          <label><input type="radio" name="allergic_reaction" value="Yes" required> Yes</label>
+          <label><input type="radio" name="allergic_reaction" value="No"> No</label>
+        </div>
+        <div id="allergy_details" style="display:none; margin-top:8px;">
+          <label>If yes, please specify</label>
+          <textarea name="allergy_spec" placeholder="Describe the reaction, product, treatment, timeframe..."></textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field" aria-labelledby="q-bruised">
+          <label id="q-bruised">Do you have a history of easily bruised, sensitive, or reactive skin?</label>
+          <div class="options" role="radiogroup" aria-labelledby="q-bruised">
+            <label><input type="radio" name="easily_bruised" value="Yes" required> Yes</label>
+            <label><input type="radio" name="easily_bruised" value="No"> No</label>
+          </div>
+        </div>
+
+        <div class="field" aria-labelledby="q-sunburn">
+          <label id="q-sunburn">Have you had sunburn or tanning (natural or tanning beds) in the last 48 hours?</label>
+          <div class="options" role="radiogroup" aria-labelledby="q-sunburn">
+            <label><input type="radio" name="recent_sun" value="Yes" required> Yes</label>
+            <label><input type="radio" name="recent_sun" value="No"> No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Are you currently facing any skin issue?</label>
+        <div class="options" role="radiogroup">
+          <label><input type="radio" name="current_skin_issue" value="Yes" required> Yes</label>
+          <label><input type="radio" name="current_skin_issue" value="No"> No</label>
+        </div>
+        <div id="current_skin_spec" style="display:none; margin-top:8px;">
+          <label>If yes, please specify</label>
+          <textarea name="current_skin_spec" placeholder="Describe issue (rash, irritation, acne, etc.)"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you use any topical products containing Acids (AHAs), Retinoids, or high-percentage Vitamin C?</label>
+        <div class="options" role="radiogroup">
+          <label><input type="radio" name="topical_acids" value="Yes" required> Yes</label>
+          <label><input type="radio" name="topical_acids" value="No"> No</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you have any infectious skin conditions, open sores, rashes, sunburn, or active acne in the service area?</label>
+        <div class="options" role="radiogroup">
+          <label><input type="radio" name="infectious_skin" value="Yes" required> Yes</label>
+          <label><input type="radio" name="infectious_skin" value="No"> No</label>
+        </div>
+        <div id="infectious_skin_spec" style="display:none; margin-top:8px;">
+          <label>If yes, please specify</label>
+          <textarea name="infectious_skin_spec" placeholder="Describe condition (location, symptoms, onset)"></textarea>
+        </div>
+      </div>
+
+      <div style="font-size:13px; color:var(--muted); padding:10px; border-radius:8px; background:#fbfbfd; border:1px solid rgba(15,23,42,0.03);">
+        <strong>Declaration</strong>
+        <p class="small" style="margin:8px 0 0 0;">
+          I declare that I have read this consultation form thoroughly and I understand every question asked. I believe I have no medical condition that may affect the service. All of the given answers are correct and true to the best of my knowledge.
+        </p>
+      </div>
+
+      <div class="signature-wrap">
+        <div class="sig-card" aria-labelledby="sig-client-label">
+          <label id="sig-client-label">Client's Signature (draw below)</label>
+          <canvas id="sigClient" width="420" height="150"></canvas>
+          <div class="sig-controls">
+            <button type="button" class="secondary" data-action="clear" data-target="sigClient">Clear</button>
+            <button type="button" class="secondary" data-action="save" data-target="sigClient">Save</button>
+            <span class="small" id="sigClientSaved" style="margin-left:auto; color:var(--muted)"></span>
+          </div>
+        </div>
+
+        <div class="sig-card" aria-labelledby="sig-attendant-label">
+          <label id="sig-attendant-label">Attendant's Signature (draw below)</label>
+          <canvas id="sigAttendant" width="420" height="150"></canvas>
+          <div class="sig-controls">
+            <button type="button" class="secondary" data-action="clear" data-target="sigAttendant">Clear</button>
+            <button type="button" class="secondary" data-action="save" data-target="sigAttendant">Save</button>
+            <span class="small" id="sigAttendantSaved" style="margin-left:auto; color:var(--muted)"></span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <button type="submit">Submit Consultation</button>
+        <button type="reset" class="secondary" id="resetAll">Reset</button>
+        <div style="margin-left:auto; color:var(--muted); font-size:13px;">All fields marked required must be answered.</div>
+      </div>
+
+      <div id="result" style="display:none; margin-top:12px;">
+        <label style="font-weight:600; display:block; margin-bottom:6px;">Submission preview (client-side)</label>
+        <div id="resultJson" class="preview"></div>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    // Utility: show/hide conditional blocks
+    function toggleConditional(radioName, yesValue, containerId){
+      const radios = document.getElementsByName(radioName);
+      function update(){
+        const selected = Array.from(radios).find(r => r.checked);
+        const el = document.getElementById(containerId);
+        if(selected && selected.value === yesValue){
+          el.style.display = 'block';
+          // mark child inputs as not required by default (since optional details)
+        } else {
+          el.style.display = 'none';
+          // clear inputs inside
+          el.querySelectorAll('textarea, input').forEach(i => i.value = '');
+        }
+      }
+      radios.forEach(r => r.addEventListener('change', update));
+      update();
+    }
+
+    // Wire up conditional sections
+    toggleConditional('recent_treatment', 'Yes', 'recent_treatment_details');
+    toggleConditional('allergic_reaction', 'Yes', 'allergy_details');
+    toggleConditional('current_skin_issue', 'Yes', 'current_skin_spec');
+    toggleConditional('infectious_skin', 'Yes', 'infectious_skin_spec');
+
+    // Signature pad (lightweight)
+    class SigPad {
+      constructor(canvasId, savedLabelId){
+        this.canvas = document.getElementById(canvasId);
+        this.savedLabel = document.getElementById(savedLabelId);
+        this.ctx = this.canvas.getContext('2d');
+        this.ctx.lineWidth = 2.2;
+        this.ctx.lineCap = 'round';
+        this.drawing = false;
+        this.clear();
+        // Coordinate scaling for high-DPI
+        this.scaleCanvas();
+        this.attachEvents();
+      }
+      scaleCanvas(){
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        const w = this.canvas.width;
+        const h = this.canvas.height;
+        this.canvas.style.width = w + 'px';
+        this.canvas.style.height = h + 'px';
+        this.canvas.width = Math.floor(w * ratio);
+        this.canvas.height = Math.floor(h * ratio);
+        this.ctx.scale(ratio, ratio);
+        this.ctx.lineWidth = 2.4;
+      }
+      attachEvents(){
+        // pointer events for mouse & touch
+        this.canvas.addEventListener('pointerdown', (e)=>{
+          this.drawing = true;
+          const p = this.getPos(e);
+          this.ctx.beginPath();
+          this.ctx.moveTo(p.x, p.y);
+        });
+        window.addEventListener('pointermove', (e)=>{
+          if(!this.drawing) return;
+          const p = this.getPos(e);
+          this.ctx.lineTo(p.x, p.y);
+          this.ctx.stroke();
+        });
+        window.addEventListener('pointerup', ()=> this.drawing = false);
+        // prevent scrolling while drawing on mobile
+        this.canvas.addEventListener('touchstart', (e)=> e.preventDefault(), {passive:false});
+      }
+      getPos(e){
+        const rect = this.canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      }
+      clear(){
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillRect(0,0,this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = '#000000';
+        this.savedData = null;
+        if(this.savedLabel) this.savedLabel.textContent = '';
+      }
+      save(){
+        // export as dataURL in PNG
+        // create a copy at display size
+        const w = this.canvas.width / (window.devicePixelRatio || 1);
+        const h = this.canvas.height / (window.devicePixelRatio || 1);
+        const tmp = document.createElement('canvas');
+        tmp.width = w; tmp.height = h;
+        const tctx = tmp.getContext('2d');
+        // draw current canvas to tmp scaling down if needed
+        tctx.drawImage(this.canvas, 0, 0, w, h);
+        this.savedData = tmp.toDataURL('image/png');
+        if(this.savedLabel) this.savedLabel.textContent = 'Saved ✓';
+        return this.savedData;
+      }
+      toDataURL(){
+        // return saved if available, else current
+        if(this.savedData) return this.savedData;
+        // fallback: return current canvas png
+        const w = this.canvas.width / (window.devicePixelRatio || 1);
+        const h = this.canvas.height / (window.devicePixelRatio || 1);
+        const tmp = document.createElement('canvas');
+        tmp.width = w; tmp.height = h;
+        tmp.getContext('2d').drawImage(this.canvas, 0, 0, w, h);
+        return tmp.toDataURL('image/png');
+      }
+    }
+
+    const clientPad = new SigPad('sigClient', 'sigClientSaved');
+    const attendantPad = new SigPad('sigAttendant', 'sigAttendantSaved');
+
+    // Buttons for clear/save
+    document.querySelectorAll('[data-action]').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const action = btn.getAttribute('data-action');
+        const target = btn.getAttribute('data-target');
+        const pad = (target === 'sigClient') ? clientPad : attendantPad;
+        if(action === 'clear') pad.clear();
+        if(action === 'save') pad.save();
+      });
+    });
+
+    // Reset behavior
+    document.getElementById('resetAll').addEventListener('click', (e)=>{
+      // give small timeout to let native reset occur
+      setTimeout(()=>{
+        clientPad.clear();
+        attendantPad.clear();
+        document.getElementById('result').style.display = 'none';
+      }, 10);
+    });
+
+    // Form submission - client-side preview
+    document.getElementById('consultForm').addEventListener('submit', function(ev){
+      ev.preventDefault();
+      const form = ev.target;
+      // basic validation for required radio groups
+      const requiredGroups = ['received_before','wax_flavour','wax_method','recent_treatment','allergic_reaction','easily_bruised','recent_sun','current_skin_issue','topical_acids','infectious_skin'];
+      for(const name of requiredGroups){
+        const any = Array.from(form.elements[name] || []).some(i => i.checked);
+        if(!any){
+          alert('Please answer all required questions. Missing: ' + name.replace(/_/g,' '));
+          return;
+        }
+      }
+      // build result object
+      const data = {};
+      const elements = new FormData(form);
+      for (const [k,v] of elements.entries()){
+        data[k] = v;
+      }
+      // add signatures
+      data.client_signature = clientPad.toDataURL();
+      data.attendant_signature = attendantPad.toDataURL();
+
+      // show preview
+      document.getElementById('resultJson').textContent = JSON.stringify(data, null, 2);
+      document.getElementById('result').style.display = 'block';
+
+      // If you want to send to server, do something like:
+      // fetch('/submit-consultation', { method: 'POST', body: JSON.stringify(data), headers:{'Content-Type':'application/json'} });
+    });
+
+    // Accessibility: keyboard focusing on canvas - allow drawing with mouse/pen; for keyboard-only users, provide text signature fallback
+    // (Optional improvement: add text input fallback for users who can't draw.)
+  </script>
+</body>
+</html>
