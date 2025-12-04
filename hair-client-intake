@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hair Removal Service - Client Intake Form</title>
     <style>
-        /* --- STYLES --- */
+        /* --- STYLES (Kept for clarity) --- */
         body { 
             font-family: Arial, sans-serif; 
             margin: 20px; 
@@ -34,7 +34,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        /* Radio/Checkbox Alignment */
         .radio-options label {
             display: inline-block;
             font-weight: normal;
@@ -65,7 +64,7 @@
 
     <h2>Hair Removal Service - Client Intake Form</h2>
 
-    <form id="clientForm" action="[REPLACE_WITH_YOUR_GOOGLE_APPS_SCRIPT_URL]" method="post" onsubmit="captureCanvasData();">
+    <form id="clientForm" action="https://formsubmit.co/[YOUR_EMAIL_ADDRESS]" method="POST" onsubmit="captureCanvasData();">
 
         <div class="form-section">
             <label>Client Name:</label>
@@ -177,6 +176,8 @@
 
         <input type="hidden" name="customerSignature" id="customerSignature">
         <input type="hidden" name="attendantSignature" id="attendantSignature">
+        
+        <input type="hidden" name="_captcha" value="false">
 
         <button type="submit" id="submitButton" onclick="this.disabled=true;">Submit Consultation Form</button>
     </form>
